@@ -12,7 +12,14 @@ server.get('/', (req, res, next) => {
 server.use( (req, res, next) => {
   res.status(404);
   res.json({
-    "message": "Error. Route not found"
+    "message": "Upps. Route not found"
+  });
+});
+
+server.use(function(err, req, res, next) {
+  res.status(500);
+  res.json({
+      "message": `${err}`
   });
 });
 
