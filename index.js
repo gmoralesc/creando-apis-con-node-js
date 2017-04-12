@@ -3,13 +3,12 @@
 const express = require('express');
 const server = express();
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const config = require("./server/config");
 
 server.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(config.port, config.hostname, () => {
+  console.log(`Server running at http://${config.hostname}:${config.port}/`);
 });
