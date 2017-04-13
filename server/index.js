@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const bodyParser = require('body-parser');
 const morgan = require("morgan");
 const logger = require("winston");
 
@@ -9,6 +10,10 @@ const api = require("./api/v1");
 const app = express();
 // Setup Middleware
 app.use(morgan("common"));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 // Setup Routes
 app.use("/api/v1", api);

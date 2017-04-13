@@ -15,6 +15,7 @@
   "author": "Gustavo Morales",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "morgan": "^1.8.1",
     "winston": "^2.3.1"
