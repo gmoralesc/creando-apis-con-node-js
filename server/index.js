@@ -4,13 +4,14 @@ const express = require("express");
 const morgan = require("morgan");
 const logger = require("winston");
 
-const api = require("./api");
+const api = require("./api/v1");
 
 const app = express();
 // Setup Middleware
 app.use(morgan("common"));
 
 // Setup Routes
+app.use("/api/v1", api);
 app.use("/api", api);
 
 // Handle missing routes
