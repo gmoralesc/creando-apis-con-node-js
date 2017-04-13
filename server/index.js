@@ -9,12 +9,16 @@ const app = express();
 app.use(morgan("common"));
 
 // Setup Routes
-app.get('/', (req, res, next) => {
-  logger.info("Home page");
-  res.json({
-    "message": "Hello World"
+app.route("/api/posts")
+  .get((req, res, next) => {
+    res.json([{
+      "id": 1,
+      "name": "Hello"
+    },{
+      "id": 2,
+      "name": "World"
+    }]);
   });
-});
 
 // Handle missing routes
 app.use( (req, res, next) => {
