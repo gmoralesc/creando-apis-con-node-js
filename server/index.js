@@ -4,21 +4,14 @@ const express = require("express");
 const morgan = require("morgan");
 const logger = require("winston");
 
+const api = require("./api");
+
 const app = express();
 // Setup Middleware
 app.use(morgan("common"));
 
 // Setup Routes
-app.route("/api/posts")
-  .get((req, res, next) => {
-    res.json([{
-      "id": 1,
-      "name": "Hello"
-    },{
-      "id": 2,
-      "name": "World"
-    }]);
-  });
+app.use("/api", api);
 
 // Handle missing routes
 app.use( (req, res, next) => {
