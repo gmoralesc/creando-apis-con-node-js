@@ -2,14 +2,21 @@
 
 const express = require('express');
 const server = express();
+const morgan = require('morgan');
+const logger = require('winston');
 
 const config = require("./server/config");
+server.use(morgan('common'));
 
 server.get('/', (req, res, next) => {
-  res.send('Hello World');
+  logger.info("Home page");
+  res.json({
+    "message": "Hello World"
+  });
 });
 
 server.use( (req, res, next) => {
+  logger.info("Route not found");
   res.status(404);
   res.json({
     "message": "Upps. Route not found"
@@ -17,6 +24,7 @@ server.use( (req, res, next) => {
 });
 
 server.use(function(err, req, res, next) {
+  logger.error("Error");
   res.status(500);
   res.json({
       "message": `${err}`
