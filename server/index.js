@@ -4,6 +4,13 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const morgan = require("morgan");
 const logger = require("winston");
+const mongoose = require("mongoose");
+const bluebird = require("bluebird");
+
+const config = require("./config");
+
+mongoose.Promise = bluebird;
+mongoose.connect(config.db.url);
 
 const api = require("./api/v1");
 
@@ -24,7 +31,7 @@ app.use( (req, res, next) => {
   logger.info("Route not found");
   res.status(404);
   res.json({
-    "message": "Upps. Route not found"
+    "error": "Upps. Route not found"
   });
 });
 
@@ -33,7 +40,7 @@ app.use(function(err, req, res, next) {
   logger.error("Error");
   res.status(500);
   res.json({
-      "message": `${err}`
+      "error": `${err}`
   });
 });
 
