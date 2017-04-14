@@ -1,15 +1,9 @@
 "use strict";
 
-const express = require('express');
-const app = express();
+const app = require("./server");
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const config = require("./server/config");
 
-app.get('/', (req, res) => {
-  res.send('Hello World\n');
-});
-
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(config.port, config.hostname, () => {
+  console.log(`Server running at http://${config.hostname}:${config.port}/`);
 });
