@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
+    "dev": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
