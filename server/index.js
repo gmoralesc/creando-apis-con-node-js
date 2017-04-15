@@ -1,19 +1,17 @@
 "use strict";
 
-const express = require('express');
-const morgan = require('morgan');
-const logger = require('winston');
+const express = require("express");
+const morgan = require("morgan");
+const logger = require("winston");
+
+const api = require("./api");
 
 const app = express();
 // Setup middleware
-app.use(morgan('common'));
+app.use(morgan("common"));
 
-app.get('/', (req, res, next) => {
-  logger.info("Home page");
-  res.json({
-    "message": "Welcome to the API"
-  });
-});
+// Setup router and routes
+app.use("/api", api);
 
 app.use( (req, res, next) => {
   logger.info("Route not found");
