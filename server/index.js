@@ -3,12 +3,17 @@
 const express = require("express");
 const morgan = require("morgan");
 const logger = require("winston");
+const bodyParser = require('body-parser');
 
 const api = require("./api/v1");
 
 const app = express();
 // Setup middleware
 app.use(morgan("common"));
+// parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json 
+app.use(bodyParser.json());
 
 // Setup router and routes
 app.use("/api", api);
