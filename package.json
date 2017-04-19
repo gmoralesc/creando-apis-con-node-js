@@ -18,6 +18,7 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "lodash": "^4.17.4",
     "mongoose": "^4.9.5",
     "morgan": "^1.8.1",
     "winston": "^2.3.1"

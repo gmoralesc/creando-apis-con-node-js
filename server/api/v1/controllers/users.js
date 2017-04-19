@@ -1,8 +1,26 @@
 "use strict";
 
 const logger = require("winston");
+const _ = require("lodash");
 
 const User = require("./../schemas/users");
+
+exports.params = (req, res, next, id) => {
+    User.findById(id)
+        .then( user => {
+            if (user) {
+                req.user = user;
+                next();
+            } else {
+                res.json({
+                    "message": "User not found"
+                });
+            }
+        })
+        .catch( err => {
+            next(new Error(err));
+        });
+};
 
 exports.all = (req, res, next) => {
     User.find()
@@ -15,13 +33,14 @@ exports.all = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
-     let body = req.body;
+    let body = req.body;
     // Sanatize input
 
-    let newUser = new User(body);
-    newUser.save()
-        .then( user => {
-            res.json(user);
+    const user = new User(body);
+    
+    user.save()
+        .then( newuser => {
+            res.json(newuser);
         })
         .catch( err => {
             next(new Error(err));
@@ -29,24 +48,34 @@ exports.post = (req, res, next) => {
 };
 
 exports.get = (req, res, next) => {
-    logger.info(req.params.id);
-    let id = req.params.id;
+    const user = req.user;
 
-    res.json({ "_id": id });
+    res.json(user);
 };
 
 exports.put = (req, res, next) => {
-    logger.info(req.params.id);
-    logger.info(req.body);
-    let id = req.params.id;
-    let update = req.body;
+    const body = req.body;
+    //Sanatize input 
+    
+    const user = _.merge(req.user, body);
 
-    res.json(update);
+    user.save()
+        .then( updated => {
+            res.json(updated);
+        })
+        .catch( err => {
+            next(new Error(err));
+        });
 };
 
 exports.delete = (req, res, next) => {
-    logger.info(req.params.id);
-    let id = req.params.id;
-
-    res.json({ "_id": id });
+    const user = req.user;
+    
+    user.remove()
+        .then(removed => {
+            res.json(removed);
+        })
+        .catch( err => {
+            next(err);
+        });
 };
