@@ -5,13 +5,13 @@ const logger = require("winston");
 const User = require("./../schemas/users");
 
 exports.all = (req, res, next) => {
-    User.find( (err, users) => {
-        if (err) {
-            next(new Error(err));
-        }else{
+    User.find()
+        .then( users => {
             res.json(users);
-        }
-    });
+        })
+        .catch( err => {
+            next(new Error(err));
+        });
 };
 
 exports.post = (req, res, next) => {
@@ -19,13 +19,13 @@ exports.post = (req, res, next) => {
     // Sanatize input
 
     let newUser = new User(body);
-    newUser.save( (err, user) => {
-        if (err) {
-            next(new Error(err));
-        }else{
+    newUser.save()
+        .then( user => {
             res.json(user);
-        }
-    });
+        })
+        .catch( err => {
+            next(new Error(err));
+        });
 };
 
 exports.get = (req, res, next) => {
