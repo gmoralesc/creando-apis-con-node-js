@@ -12,6 +12,8 @@ const controller = require("./../controllers/categories");
  * /api/categories/:id  DELETE - DELETE
  */
 
+router.param("id", controller.params);
+
 router.route("/")
     .get(controller.all)
     .post(controller.post);
