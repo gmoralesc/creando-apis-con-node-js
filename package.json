@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --inspect",
-    "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development nodemon --inspect",
+    "start": "cross-env NODE_ENV=production node index",
+    "test": "cross-env NODE_ENV=test echo \"Error: no test specified\"&& exit 1"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,7 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "cross-env": "^5.2.0",
     "express": "^4.16.4"
   }
 }
