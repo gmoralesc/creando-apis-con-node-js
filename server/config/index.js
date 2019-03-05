@@ -1,6 +1,8 @@
+require('dotenv').config('');
+
 const config = {
   server: {
-    port: 3000,
+    port: process.env.SERVER_PORT || 3000,
   },
 };
 
