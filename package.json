@@ -18,6 +18,7 @@
     "nodemon": "^1.18.10"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cross-env": "^5.2.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
