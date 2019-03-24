@@ -1,6 +1,7 @@
-const Model = require('./model');
+const { Model, fields } = require('./model');
 
 const { paginationParseParams } = require('./../../../utils');
+const { sortParseParams, sortCompactToStr } = require('./../../../utils');
 
 exports.id = async (req, res, next, id) => {
   try {
@@ -25,8 +26,10 @@ exports.id = async (req, res, next, id) => {
 exports.all = async (req, res, next) => {
   const { query } = req;
   const { limit, page, skip } = paginationParseParams(query);
+  const { sortBy, direction } = sortParseParams(query, fields);
 
   const all = Model.find()
+    .sort(sortCompactToStr(sortBy, direction))
     .skip(skip)
     .limit(limit);
   const count = Model.countDocuments();
@@ -44,6 +47,8 @@ exports.all = async (req, res, next) => {
         total,
         page,
         pages,
+        sortBy,
+        direction,
       },
     });
   } catch (err) {
