@@ -10,6 +10,11 @@ const config = {
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
   },
+  pagination: {
+    limit: 10,
+    skip: 0,
+    page: 1,
+  },
 };
 
 module.exports = config;
