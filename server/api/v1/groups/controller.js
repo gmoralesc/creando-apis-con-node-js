@@ -1,13 +1,21 @@
-const { Model, fields, references } = require('./model');
+const {
+  Model, fields, references, virtuals,
+} = require('./model');
 
 const { paginationParseParams } = require('./../../../utils');
 const { sortParseParams, sortCompactToStr } = require('./../../../utils');
+const { filterByNested, populateToObject } = require('./../../../utils');
 
-const referencesNames = Object.getOwnPropertyNames(references);
+const referencesNames = [
+  ...Object.getOwnPropertyNames(references),
+  ...Object.getOwnPropertyNames(virtuals),
+];
 
 exports.id = async (req, res, next, id) => {
+  const { params = {} } = req;
+  const { populate } = filterByNested(params, referencesNames);
+
   try {
-    const populate = referencesNames.join(' ');
     const doc = await Model.findById(id)
       .populate(populate)
       .exec();
@@ -30,17 +38,18 @@ exports.id = async (req, res, next, id) => {
 };
 
 exports.all = async (req, res, next) => {
-  const { query } = req;
+  const { query = {}, params = {} } = req;
   const { limit, page, skip } = paginationParseParams(query);
   const { sortBy, direction } = sortParseParams(query, fields);
-  const populate = referencesNames.join(' ');
+  const { filters, populate } = filterByNested(params, referencesNames);
+  const populateObject = populateToObject(populate.split(' '), virtuals);
 
-  const all = Model.find()
+  const all = Model.find(filters)
     .sort(sortCompactToStr(sortBy, direction))
     .skip(skip)
     .limit(limit)
-    .populate(populate);
-  const count = Model.countDocuments();
+    .populate(populateObject);
+  const count = Model.countDocuments(filters);
 
   try {
     const data = await Promise.all([all.exec(), count.exec()]);

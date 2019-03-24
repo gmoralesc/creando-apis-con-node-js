@@ -25,6 +25,13 @@ const config = {
       options: ['asc', 'desc'],
     },
   },
+  populate: {
+    virtuals: {
+      limit: 20,
+      sort: 'createdAt',
+      direction: 'desc',
+    },
+  },
 };
 
 module.exports = config;
