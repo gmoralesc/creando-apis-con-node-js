@@ -1,14 +1,7 @@
 const router = require('express').Router();
 
 const controller = require('./controller');
-
-/*
- * /api/tasks/ POST - CREATE
- * /api/tasks/ GET - READ ALL
- * /api/tasks/:id GET - READ ONE
- * /api/tasks/:id PUT - UPDATE
- * /api/tasks/:id DELETE - DELETE
- */
+const tasksRouter = require('./../tasks/routes');
 
 router.param('id', controller.id);
 
@@ -22,5 +15,7 @@ router
   .get(controller.read)
   .put(controller.update)
   .delete(controller.delete);
+
+router.use('/:userId/tasks', tasksRouter);
 
 module.exports = router;
