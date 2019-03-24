@@ -10,6 +10,8 @@ const controller = require('./controller');
  * /api/tasks/:id DELETE - DELETE
  */
 
+router.param('id', controller.id);
+
 router
   .route('/')
   .post(controller.create)
