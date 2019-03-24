@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const controller = require('./controller');
 const { auth } = require('./../auth');
-
+const { sanitizers } = require('./model');
 /*
  * /api/tasks/ POST - CREATE
  * /api/tasks/ GET - READ ALL
@@ -15,13 +15,13 @@ router.param('id', controller.id);
 
 router
   .route('/')
-  .post(auth, controller.create)
+  .post(auth, sanitizers, controller.create)
   .get(auth, controller.all);
 
 router
   .route('/:id')
   .get(auth, controller.read)
-  .put(auth, controller.update)
+  .put(auth, sanitizers, controller.update)
   .delete(auth, controller.delete);
 
 module.exports = router;
