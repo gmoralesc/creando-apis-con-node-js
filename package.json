@@ -23,6 +23,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "express-request-id": "^1.4.1",
+    "mongoose": "^5.4.19",
     "morgan": "^1.9.1",
     "strip-final-newline": "^2.0.0",
     "winston": "^3.2.1"
