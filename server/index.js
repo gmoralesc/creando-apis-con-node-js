@@ -1,6 +1,7 @@
 const express = require('express');
 const requestId = require('express-request-id')();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const logger = require('./config/logger');
 const api = require('./api/v1');
@@ -16,6 +17,14 @@ app.use(logger.requests);
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+// setup CORS
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
+    allowedHeaders: ['Accept', 'Content-Type', 'Authorization'],
+  }),
+);
 
 // Setup router and routes
 app.use('/api', api);
