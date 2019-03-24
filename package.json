@@ -28,6 +28,7 @@
     "mongoose": "^5.4.19",
     "morgan": "^1.9.1",
     "strip-final-newline": "^2.0.0",
+    "validator": "^10.11.0",
     "winston": "^3.2.1"
   }
 }
