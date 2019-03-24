@@ -93,7 +93,11 @@ exports.all = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
-  const { body = {}, params = {} } = req;
+  const { body = {}, params = {}, decoded = {} } = req;
+  const { _id = null } = decoded;
+  if (_id) {
+    body.userId = _id;
+  }
 
   Object.assign(body, params);
 

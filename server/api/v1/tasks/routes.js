@@ -3,6 +3,7 @@ const router = require('express').Router({
 });
 
 const controller = require('./controller');
+const { auth } = require('./../auth');
 
 /*
  * /api/tasks/ POST - CREATE
@@ -16,13 +17,13 @@ router.param('id', controller.id);
 
 router
   .route('/')
-  .post(controller.parentId, controller.create)
-  .get(controller.parentId, controller.all);
+  .post(auth, controller.parentId, controller.create)
+  .get(auth, controller.parentId, controller.all);
 
 router
   .route('/:id')
-  .get(controller.parentId, controller.read)
-  .put(controller.parentId, controller.update)
-  .delete(controller.parentId, controller.delete);
+  .get(auth, controller.parentId, controller.read)
+  .put(auth, controller.parentId, controller.update)
+  .delete(auth, controller.parentId, controller.delete);
 
 module.exports = router;
