@@ -23,7 +23,10 @@ exports.id = async (req, res, next, id) => {
 exports.all = async (req, res, next) => {
   try {
     const docs = await Model.find().exec();
-    res.json(docs);
+    res.json({
+      success: true,
+      data: docs,
+    });
   } catch (err) {
     next(new Error(err));
   }
@@ -36,7 +39,10 @@ exports.create = async (req, res, next) => {
   try {
     const doc = await document.save();
     res.status(201);
-    res.json(doc);
+    res.json({
+      success: true,
+      data: doc,
+    });
   } catch (err) {
     next(new Error(err));
   }
@@ -45,7 +51,10 @@ exports.create = async (req, res, next) => {
 exports.read = (req, res, next) => {
   const { doc = {} } = req;
 
-  res.json(doc);
+  res.json({
+    success: true,
+    data: doc,
+  });
 };
 
 exports.update = async (req, res, next) => {
@@ -55,7 +64,10 @@ exports.update = async (req, res, next) => {
 
   try {
     const updated = await doc.save();
-    res.json(updated);
+    res.json({
+      success: true,
+      data: updated,
+    });
   } catch (err) {
     next(new Error(err));
   }
@@ -66,7 +78,10 @@ exports.delete = async (req, res, next) => {
 
   try {
     const removed = await doc.remove();
-    res.json(removed);
+    res.json({
+      success: true,
+      data: removed,
+    });
   } catch (err) {
     next(new Error(err));
   }
