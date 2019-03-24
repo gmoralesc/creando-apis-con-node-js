@@ -56,7 +56,7 @@ exports.all = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const { body = {} } = req;
   const document = new Model(body);
 
@@ -69,6 +69,44 @@ exports.create = async (req, res, next) => {
     });
   } catch (err) {
     next(new Error(err));
+  }
+};
+
+exports.signin = async (req, res, next) => {
+  const { body = {} } = req;
+  const { email = '', password = '' } = body;
+
+  try {
+    const user = await Model.findOne({ email }).exec();
+    if (!user) {
+      const message = 'Email or password are invalid';
+
+      return next({
+        success: false,
+        message,
+        statusCode: 200,
+        level: 'info',
+      });
+    }
+
+    const verified = await user.verifyPassword(password);
+    if (!verified) {
+      const message = 'Email or password are invalid';
+
+      return next({
+        success: false,
+        message,
+        statusCode: 200,
+        level: 'info',
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    return next(new Error(error));
   }
 };
 
