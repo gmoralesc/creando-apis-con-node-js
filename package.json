@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --inspect",
     "start": "cross-env NODE_ENV=production node index",
-    "test": "cross-env NODE_ENV=test echo \"Error: no test specified\"&& exit 1"
+    "test": "cross-env NODE_ENV=test jest",
+    "coverage": "jest --coverage ."
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "jest": "^24.5.0",
     "nodemon": "^1.18.10"
   },
   "dependencies": {
