@@ -17,5 +17,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
