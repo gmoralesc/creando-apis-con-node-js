@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  "editor.trimAutoWhitespace": true,
+  "editor.tabSize": 2,
+  "files.insertFinalNewline": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5"
+}
