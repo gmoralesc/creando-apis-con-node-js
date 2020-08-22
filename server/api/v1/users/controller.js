@@ -24,6 +24,44 @@ exports.id = async (req, res, next, id) => {
   }
 };
 
+exports.signin = async (req, res, next) => {
+  const { body = {} } = req;
+  const { email = '', password = '' } = body;
+
+  try {
+    const user = await Model.findOne({ email }).exec();
+    if (!user) {
+      const message = 'Email or password are invalid';
+
+      return next({
+        success: false,
+        message,
+        statusCode: 401,
+        level: 'info',
+      });
+    }
+
+    const verified = await user.verifyPassword(password);
+    if (!verified) {
+      const message = 'Email or password are invalid';
+
+      return next({
+        success: false,
+        message,
+        statusCode: 401,
+        level: 'info',
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    return next(new Error(error));
+  }
+};
+
 exports.create = async (req, res, next) => {
   const { body = {} } = req;
   const document = new Model(body);
