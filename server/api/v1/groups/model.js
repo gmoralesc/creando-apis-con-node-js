@@ -1,6 +1,7 @@
 // server/api/v1/groups/model.js
 
 const mongoose = require('mongoose');
+const { body } = require('express-validator');
 
 const { Schema } = mongoose;
 
@@ -38,9 +39,12 @@ const virtuals = {
 
 group.virtual('tasks', virtuals.tasks);
 
+const sanitizers = [body('title').escape()];
+
 module.exports = {
   Model: mongoose.model('group', group),
   fields,
   references,
   virtuals,
+  sanitizers,
 };

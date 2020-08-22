@@ -3,6 +3,7 @@
 const router = require('express').Router();
 const controller = require('./controller');
 const { auth, owner } = require('../auth');
+const { sanitizers } = require('./model');
 
 /*
  * /api/groups/ POST - CREATE
@@ -12,14 +13,17 @@ const { auth, owner } = require('../auth');
  * /api/groups/:id DELETE - DELETE
  */
 
-router.route('/').post(auth, controller.create).get(auth, controller.all);
+router
+  .route('/')
+  .post(auth, sanitizers, controller.create)
+  .get(auth, controller.all);
 
 router.param('id', controller.id);
 
 router
   .route('/:id')
   .get(auth, controller.read)
-  .put(auth, owner, controller.update)
+  .put(auth, owner, sanitizers, controller.update)
   .delete(auth, owner, controller.delete);
 
 module.exports = router;

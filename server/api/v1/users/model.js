@@ -1,8 +1,9 @@
 // server/api/v1/users/model.js
 
 const mongoose = require('mongoose');
-const validator = require('validator');
 const { hash, compare } = require('bcryptjs');
+const validator = require('validator');
+const { body } = require('express-validator');
 
 const { Schema } = mongoose;
 
@@ -83,7 +84,10 @@ user.methods.verifyPassword = function verifyPassword(password) {
   return compare(password, this.password);
 };
 
+const sanitizers = [body('email').isEmail().normalizeEmail()];
+
 module.exports = {
   Model: mongoose.model('user', user),
   fields,
+  sanitizers,
 };

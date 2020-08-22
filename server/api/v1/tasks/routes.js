@@ -5,6 +5,7 @@ const router = require('express').Router({
 });
 const controller = require('./controller');
 const { auth, owner } = require('../auth');
+const { sanitizers } = require('./model');
 
 /*
  * /api/tasks/ POST - CREATE
@@ -18,13 +19,13 @@ router.param('id', controller.id);
 
 router
   .route('/')
-  .post(auth, controller.parentId, controller.create)
+  .post(auth, controller.parentId, sanitizers, controller.create)
   .get(auth, controller.parentId, controller.all);
 
 router
   .route('/:id')
   .get(auth, controller.parentId, controller.read)
-  .put(auth, owner, controller.parentId, controller.update)
+  .put(auth, owner, controller.parentId, sanitizers, controller.update)
   .delete(auth, owner, controller.parentId, controller.delete);
 
 module.exports = router;
