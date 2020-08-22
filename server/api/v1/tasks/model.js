@@ -1,6 +1,7 @@
 // server/api/v1/tasks/model.js
 
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const { Schema } = mongoose;
 
@@ -25,6 +26,12 @@ const fields = {
     type: String,
     default: '',
     trim: true,
+    validate: {
+      validator(value) {
+        return value ? validator.isURL(value) : true;
+      },
+      message: (props) => `${props.value} is not a valid url`,
+    },
   },
   dueDate: {
     type: Date,
