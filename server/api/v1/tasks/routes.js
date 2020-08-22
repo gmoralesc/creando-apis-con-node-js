@@ -1,6 +1,8 @@
 // server/api/v1/tasks/routes.js
 
-const router = require('express').Router();
+const router = require('express').Router({
+  mergeParams: true,
+});
 const controller = require('./controller');
 
 /*
@@ -11,14 +13,17 @@ const controller = require('./controller');
  * /api/tasks/:id DELETE - DELETE
  */
 
-router.route('/').post(controller.create).get(controller.all);
-
 router.param('id', controller.id);
 
 router
+  .route('/')
+  .post(controller.parentId, controller.create)
+  .get(controller.parentId, controller.all);
+
+router
   .route('/:id')
-  .get(controller.read)
-  .put(controller.update)
-  .delete(controller.delete);
+  .get(controller.parentId, controller.read)
+  .put(controller.parentId, controller.update)
+  .delete(controller.parentId, controller.delete);
 
 module.exports = router;

@@ -3,8 +3,36 @@
 const { Model, fields, references } = require('./model');
 const { paginationParseParams } = require('../../../utils');
 const { sortParseParams, sortCompactToStr } = require('../../../utils');
+const { filterByNested } = require('../../../utils');
+const { Model: User } = require('../users/model');
 
 const referencesNames = Object.getOwnPropertyNames(references);
+
+exports.parentId = async (req, res, next) => {
+  const { params = {} } = req;
+  const { userId = null } = params;
+  if (userId) {
+    try {
+      const doc = await User.findById(userId).exec();
+      if (doc) {
+        next();
+      } else {
+        const message = 'User not found';
+
+        next({
+          success: false,
+          message,
+          statusCode: 404,
+          level: 'warn',
+        });
+      }
+    } catch (err) {
+      next(new Error(err));
+    }
+  } else {
+    next();
+  }
+};
 
 exports.id = async (req, res, next, id) => {
   const populate = referencesNames.join(' ');
@@ -28,7 +56,10 @@ exports.id = async (req, res, next, id) => {
 };
 
 exports.create = async (req, res, next) => {
-  const { body = {} } = req;
+  const { body = {}, params = {} } = req;
+
+  Object.assign(body, params);
+
   const document = new Model(body);
 
   try {
@@ -44,17 +75,17 @@ exports.create = async (req, res, next) => {
 };
 
 exports.all = async (req, res, next) => {
-  const { query = {} } = req;
+  const { query = {}, params = {} } = req;
   const { limit, page, skip } = paginationParseParams(query);
   const { sortBy, direction } = sortParseParams(query, fields);
-  const populate = referencesNames.join(' ');
+  const { filters, populate } = filterByNested(params, referencesNames);
 
   const all = Model.find({})
     .sort(sortCompactToStr(sortBy, direction))
     .skip(skip)
     .limit(limit)
     .populate(populate);
-  const count = Model.countDocuments();
+  const count = Model.countDocuments(filters);
 
   try {
     const data = await Promise.all([all.exec(), count.exec()]);
@@ -89,9 +120,9 @@ exports.read = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { doc = {}, body = {} } = req;
+  const { doc = {}, body = {}, params = {} } = req;
 
-  Object.assign(doc, body);
+  Object.assign(doc, body, params);
 
   try {
     const updated = await doc.save();
