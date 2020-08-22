@@ -32,7 +32,11 @@ exports.id = async (req, res, next, id) => {
 };
 
 exports.create = async (req, res, next) => {
-  const { body = {} } = req;
+  const { body = {}, decoded = {} } = req;
+  const { _id = null } = decoded;
+  if (_id) {
+    body.userId = _id;
+  }
   const document = new Model(body);
 
   try {
