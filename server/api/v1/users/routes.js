@@ -15,8 +15,9 @@ const controller = require('./controller');
 
 router.param('id', controller.id);
 
-router.route('/').post(controller.create).get(controller.all);
+router.route('/').get(controller.all);
 
+router.route('/signup').post(controller.signup);
 router.route('/signin').post(controller.signin);
 
 router
